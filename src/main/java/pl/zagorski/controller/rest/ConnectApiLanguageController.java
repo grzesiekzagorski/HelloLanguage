@@ -1,5 +1,6 @@
 package pl.zagorski.controller.rest;
 
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +19,7 @@ public class ConnectApiLanguageController {
     @GetMapping("/connectApiSearch")
     public ResultModeSearch tryConnectWithApiSearch(){
         ResultModeSearch resultModeSearch = connectApiLanguageService.apiConnectSearch("global","pl",false,"noun",
-                10000,1,30,false);
+                10000,1,10,false);
         return resultModeSearch;
     }
 

@@ -1,11 +1,17 @@
 package pl.zagorski.model.rest.search;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class Word {
+    @JsonProperty(value = "id")
     private String id;
+    @JsonProperty(value = "language")
     private String language;
+    @JsonProperty(value = "headword")
     private Headword headword;
+    @JsonProperty(value = "senses")
     private List<Sense> senses;
 
     public String getId() {

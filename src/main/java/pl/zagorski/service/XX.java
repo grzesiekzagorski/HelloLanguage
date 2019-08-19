@@ -1,4 +1,4 @@
-package pl.zagorski.service.rest;
+package pl.zagorski.service;
 
 public class XX {
 }

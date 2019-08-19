@@ -1,5 +1,6 @@
 package pl.zagorski.service.rest;
 
+import com.google.gson.Gson;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -28,19 +29,21 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
     private String host;
 
     @Override
-    public ResultModeSearch apiConnectSearch(String source, String language, boolean morph, String pos, int sample,
-                                 int page, int page_length, boolean analyzed) {
+    public ResultModeSearch apiConnectSearch(String source, String language, boolean morph, String pos,
+                                             int sample, int page, int page_length, boolean analyzed) {
         HttpHeaders httpHeaders = createHeaders(username, password);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", httpHeaders);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ResultModeSearch> exchange = restTemplate.exchange(buildUrlSearch(source, language, morph, pos,
-                sample, page, page_length, analyzed).toUriString(), HttpMethod.GET,
-                httpEntity, ResultModeSearch.class);
-        return exchange.getBody();
+        ResponseEntity<String> exchange = restTemplate.exchange(buildUrlSearch(source, language, morph, pos,
+                sample, page, page_length, analyzed).toUriString(), HttpMethod.GET, httpEntity,
+                String.class);
+        Gson gson = new Gson();
+        ResultModeSearch resultModeSearch = gson.fromJson(exchange.getBody(),ResultModeSearch.class);
+        return resultModeSearch;
     }
 
-    private UriComponents buildUrlSearch(String source, String language, boolean morph, String pos, int sample,
-                                         int page, int page_length, boolean analyzed) {
+    private UriComponents buildUrlSearch(String source, String language, boolean morph, String pos
+            , int sample, int page, int page_length, boolean analyzed) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.put("source", Collections.singletonList(source));
         params.put("language", Collections.singletonList(language));
@@ -63,9 +66,11 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
         HttpHeaders httpHeaders = createHeaders(username, password);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", httpHeaders);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ResultModeEntry> exchange = restTemplate.exchange(buildUrlEntry(entry_id), HttpMethod.GET,
-                httpEntity, ResultModeEntry.class);
-        return exchange.getBody();
+        ResponseEntity<String> exchange = restTemplate.exchange(buildUrlEntry(entry_id), HttpMethod.GET,
+                httpEntity, String.class);
+        Gson gson = new Gson();
+        ResultModeEntry resultModeEntry = gson.fromJson(exchange.getBody(),ResultModeEntry.class);
+        return resultModeEntry;
 
     }
 
@@ -86,9 +91,11 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
         HttpHeaders httpHeaders = createHeaders(username, password);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", httpHeaders);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<ResultModeSense> exchange = restTemplate.exchange(buildUrlSense(sense_id), HttpMethod.GET,
-                httpEntity, ResultModeSense.class);
-        return exchange.getBody();
+        ResponseEntity<String> exchange = restTemplate.exchange(buildUrlSense(sense_id), HttpMethod.GET,
+                httpEntity, String.class);
+        Gson gson = new Gson();
+        ResultModeSense resultModeSense = gson.fromJson(exchange.getBody(),ResultModeSense.class);
+        return resultModeSense;
     }
 
     private String buildUrlSense(String sense_id) {
@@ -111,6 +118,7 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
             String authHeader = "Basic " + new String(encodedAuth);
             set("Authorization", authHeader);
             setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+            setAcceptCharset(Arrays.asList(Charset.forName("utf-8")));
         }};
     }
 }
