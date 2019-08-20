@@ -39,6 +39,7 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
                 String.class);
         Gson gson = new Gson();
         ResultModeSearch resultModeSearch = gson.fromJson(exchange.getBody(),ResultModeSearch.class);
+//        return exchange.getBody();
         return resultModeSearch;
     }
 
@@ -70,6 +71,7 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
                 httpEntity, String.class);
         Gson gson = new Gson();
         ResultModeEntry resultModeEntry = gson.fromJson(exchange.getBody(),ResultModeEntry.class);
+//        return exchange.getBody();
         return resultModeEntry;
 
     }
@@ -91,11 +93,11 @@ public class ConnectApiLanguageServiceImpl implements ConnectApiLanguageService 
         HttpHeaders httpHeaders = createHeaders(username, password);
         HttpEntity<String> httpEntity = new HttpEntity<>("parameters", httpHeaders);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> exchange = restTemplate.exchange(buildUrlSense(sense_id), HttpMethod.GET,
-                httpEntity, String.class);
-        Gson gson = new Gson();
-        ResultModeSense resultModeSense = gson.fromJson(exchange.getBody(),ResultModeSense.class);
-        return resultModeSense;
+        ResponseEntity<ResultModeSense> exchange = restTemplate.exchange(buildUrlSense(sense_id), HttpMethod.GET,
+                httpEntity, ResultModeSense.class);
+//        Gson gson = new Gson();
+//        ResultModeSense resultModeSense = gson.fromJson(exchange.getBody(),ResultModeSense.class);
+        return exchange.getBody();
     }
 
     private String buildUrlSense(String sense_id) {

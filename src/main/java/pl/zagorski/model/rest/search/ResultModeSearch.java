@@ -1,19 +1,19 @@
 package pl.zagorski.model.rest.search;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class ResultModeSearch {
-    @SerializedName(value = "n_results")
+    @JsonProperty(value = "n_results")
     private int nResults;
-    @SerializedName(value = "page_number")
+    @JsonProperty(value = "page_number")
     private int pageNumber;
-    @SerializedName(value = "results_per_page")
+    @JsonProperty(value = "results_per_page")
     private int resultPerPage;
-    @SerializedName(value = "n_pages")
+    @JsonProperty(value = "n_pages")
     private int nPages;
-    @SerializedName(value = "available_n_pages")
+    @JsonProperty(value = "available_n_pages")
     private int availableNPages;
     private List<Word> results;
 

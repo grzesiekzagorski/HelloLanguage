@@ -1,6 +1,8 @@
 package pl.zagorski.model.rest.search;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.JsonAdapter;
+import pl.zagorski.model.rest.adapter.AlwaysListTypeAdapterFactory;
 
 import java.util.List;
 
@@ -9,10 +11,8 @@ public class Word {
     private String id;
     @JsonProperty(value = "language")
     private String language;
-    @JsonProperty(value = "headword")
-    private Headword headword;
-    @JsonProperty(value = "senses")
-    private List<Sense> senses;
+    @JsonAdapter(AlwaysListTypeAdapterFactory.class)
+    private List<Headword> headword;
 
     public String getId() {
         return id;
@@ -30,19 +30,11 @@ public class Word {
         this.language = language;
     }
 
-    public Headword getHeadword() {
+    public List<Headword> getHeadword() {
         return headword;
     }
 
-    public void setHeadword(Headword headword) {
+    public void setHeadword(List<Headword> headword) {
         this.headword = headword;
-    }
-
-    public List<Sense> getSenses() {
-        return senses;
-    }
-
-    public void setSenses(List<Sense> senses) {
-        this.senses = senses;
     }
 }

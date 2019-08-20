@@ -1,13 +1,19 @@
 package pl.zagorski.model.rest.sense;
 
-public class Translation {
-    private Language en;
+import com.google.gson.annotations.JsonAdapter;
+import pl.zagorski.model.rest.adapter.AlwaysListTypeAdapterFactory;
 
-    public Language getEn() {
+import java.util.List;
+
+public class Translation {
+    @JsonAdapter(AlwaysListTypeAdapterFactory.class)
+    private List<Language> en;
+
+    public List<Language> getEn() {
         return en;
     }
 
-    public void setEn(Language en) {
+    public void setEn(List<Language> en) {
         this.en = en;
     }
 }
